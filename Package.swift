@@ -4,19 +4,30 @@
 import PackageDescription
 
 let package = Package(
-    name: "${NAME}",
-    platforms: [
-        .iOS(.v13),
-    ],
+    name: "SwiftFirebaseTools",
     products: [
-        .library(name: "${NAME}", targets: ["${NAME}"]),
+        .library(name: "SwiftFirebaseTools", targets: ["SwiftFirebaseTools"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/apple/swift-metrics.git", from: "2.0.0"),
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-atomics.git", from: "1.0.0"),
+        .package(url: "https://github.com/dankinsoid/swift-analytics.git", from: "1.0.0"),
+        .package(url: "https://github.com/dankinsoid/swift-remote-configs.git", from: "0.2.0"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.0.0")
     ],
     targets: [
         .target(
-            name: "${NAME}",
+            name: "SwiftFirebaseTools",
             dependencies: [
+                .product(name: "FirebaseAnalyticsSwift", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
+                .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
+                .product(name: "Metrics", package: "swift-metrics"),
+                .product(name: "Atomics", package: "swift-atomics"),
+                .product(name: "Logging", package: "swift-log"),
+                .product(name: "SwiftAnalytics", package: "swift-analytics"),
+                .product(name: "SwiftRemoteConfigs", package: "swift-remote-configs")
             ]
         )
     ]
