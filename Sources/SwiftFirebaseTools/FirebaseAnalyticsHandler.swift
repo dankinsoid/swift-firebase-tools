@@ -4,12 +4,24 @@ import FirebaseAnalytics
 
 public struct FirebaseAnalyticsHandler: AnalyticsHandler {
 
-    public var parameters: [String: String] = [:]
-
-    public init() {
+    public var parameters: SwiftAnalytics.Analytics.Parameters
+    
+    public init(parameters: SwiftAnalytics.Analytics.Parameters = [:]) {
+        self.parameters = parameters
     }
-
-    public func send(event: SwiftAnalytics.Analytics.Event, fileID: String, function: String, line: UInt) {
-        FirebaseAnalytics.Analytics.logEvent(event.name, parameters: parameters.merging(event.parameters) { _, new in new })
+    
+    public func send(
+        event: SwiftAnalytics.Analytics.Event,
+        file: String,
+        function: String,
+        line: UInt,
+        source: String
+    ) {
+        FirebaseAnalytics.Analytics.logEvent(
+            event.name,
+            parameters: event.parameters
+                .merging(parameters) { o, _ in o }
+                .mapValues(\.description)
+        )
     }
 }

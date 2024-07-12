@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dankinsoid/swift-analytics.git",
       "state" : {
-        "revision" : "c705ebc0b8aefc5a23f96bc37122a90bf25e2010",
-        "version" : "1.0.5"
+        "revision" : "491ef60f39bc62a98396ea7f89d1bfd996888162",
+        "version" : "1.9.0"
       }
     },
     {
