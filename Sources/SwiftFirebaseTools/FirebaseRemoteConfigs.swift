@@ -28,7 +28,7 @@ public struct FirebaseRemoteConfigsHandler: RemoteConfigsHandler {
         }
     }
 
-    public func value(for key: String) -> CustomStringConvertible? {
+    public func value(for key: String) -> String? {
         return config.configValue(forKey: key).stringValue
     }
 }

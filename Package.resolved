@@ -158,8 +158,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dankinsoid/swift-remote-configs.git",
       "state" : {
-        "revision" : "cf48349731b81b408e0efc420394757c7276e793",
-        "version" : "0.2.0"
+        "revision" : "625f708c5c07bf64bc01fd154b13beb85c9c3540",
+        "version" : "0.4.0"
       }
     }
   ],
