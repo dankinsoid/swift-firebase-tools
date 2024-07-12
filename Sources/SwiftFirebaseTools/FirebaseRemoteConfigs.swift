@@ -29,6 +29,6 @@ public struct FirebaseRemoteConfigsHandler: RemoteConfigsHandler {
     }
 
     public func value(for key: String) -> String? {
-        return config.configValue(forKey: key).stringValue
+        return config.configValue(forKey: key, source: .remote).stringValue
     }
 }
