@@ -3,7 +3,7 @@ import Foundation
 import FirebasePerformance
 import Metrics
 
-public struct FirebaseMetricsFactory: MetricsFactory {
+struct FirebaseMetricsFactory: MetricsFactory {
 
     public func makeCounter(label: String, dimensions: [(String, String)]) -> CounterHandler {
         FirebaseCounter(label: label)
@@ -39,13 +39,13 @@ private final class FirebaseCounter: CounterHandler {
     }
 
     func increment(by value: Int64) {
-        guard let trace = Performance.startTrace(name: label) else { return }
+        guard let trace = Performance.startTrace(name: "metrics") else { return }
         trace.incrementMetric(label, by: value)
         trace.stop()
     }
 
     func reset() {
-        guard let trace = Performance.startTrace(name: label) else { return }
+        guard let trace = Performance.startTrace(name: "metrics") else { return }
         trace.setValue(0, forMetric: label)
         trace.stop()
     }
