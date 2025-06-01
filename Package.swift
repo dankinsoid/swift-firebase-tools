@@ -12,9 +12,9 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-metrics.git", from: "2.0.0"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-atomics.git", from: "1.0.0"),
-        .package(url: "https://github.com/dankinsoid/swift-analytics.git", from: "1.9.0"),
+        .package(url: "https://github.com/dankinsoid/swift-analytics.git", from: "1.10.0"),
         .package(url: "https://github.com/dankinsoid/swift-remote-configs.git", from: "0.4.0"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.0.0")
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.0.0"),
     ],
     targets: [
         .target(
@@ -27,8 +27,8 @@ let package = Package(
                 .product(name: "Atomics", package: "swift-atomics"),
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "SwiftAnalytics", package: "swift-analytics"),
-                .product(name: "SwiftRemoteConfigs", package: "swift-remote-configs")
+                .product(name: "SwiftRemoteConfigs", package: "swift-remote-configs"),
             ]
-        )
+        ),
     ]
 )
