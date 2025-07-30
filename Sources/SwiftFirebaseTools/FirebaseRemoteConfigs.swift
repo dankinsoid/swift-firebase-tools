@@ -1,14 +1,17 @@
-import Foundation
-import FirebaseRemoteConfigInternal
-@_exported import SwiftRemoteConfigs
 import Firebase
+import FirebaseRemoteConfigInternal
+import FirebaseRemoteConfig
+import Foundation
+@_exported import SwiftConfigs
 
-public struct FirebaseRemoteConfigsHandler: RemoteConfigsHandler {
+public struct FirebaseRemoteConfigsHandler: ConfigsHandler {
 
     private let config: RemoteConfig
+		private let source: RemoteConfigSource
 
-    public init(config: RemoteConfig = .remoteConfig()) {
+	public init(config: RemoteConfig = .remoteConfig(), source: RemoteConfigSource = .remote) {
         self.config = config
+				self.source = source
     }
 
     public func fetch(completion: @escaping (Error?) -> Void) {
@@ -17,18 +20,18 @@ public struct FirebaseRemoteConfigsHandler: RemoteConfigsHandler {
         }
     }
 
-    public func listen(_ listener: @escaping () -> Void) -> RemoteConfigsCancellation? {
+    public func listen(_ listener: @escaping () -> Void) -> ConfigsCancellation? {
         let cancellable = config.addOnConfigUpdateListener { _, error in
             if error == nil {
                 listener()
             }
         }
-        return RemoteConfigsCancellation {
+        return ConfigsCancellation {
             cancellable.remove()
         }
     }
 
     public func value(for key: String) -> String? {
-        return config.configValue(forKey: key, source: .remote).stringValue
+        config.configValue(forKey: key, source: source).stringValue
     }
 }
