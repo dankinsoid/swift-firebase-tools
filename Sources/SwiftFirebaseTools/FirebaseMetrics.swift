@@ -1,7 +1,6 @@
 #if canImport(FirebasePerformance)
 import Foundation
 import FirebasePerformance
-import Metrics
 
 //struct FirebaseMetricsFactory: MetricsFactory {
 //
@@ -30,24 +29,24 @@ import Metrics
 //    }
 //}
 
-private final class FirebaseCounter: CounterHandler {
-    
-    let label: String
-
-    init(label: String) {
-        self.label = label
-    }
-
-    func increment(by value: Int64) {
-        guard let trace = Performance.startTrace(name: "metrics") else { return }
-        trace.incrementMetric(label, by: value)
-        trace.stop()
-    }
-
-    func reset() {
-        guard let trace = Performance.startTrace(name: "metrics") else { return }
-        trace.setValue(0, forMetric: label)
-        trace.stop()
-    }
-}
+//private final class FirebaseCounter: CounterHandler {
+//    
+//    let label: String
+//
+//    init(label: String) {
+//        self.label = label
+//    }
+//
+//    func increment(by value: Int64) {
+//        guard let trace = Performance.startTrace(name: "metrics") else { return }
+//        trace.incrementMetric(label, by: value)
+//        trace.stop()
+//    }
+//
+//    func reset() {
+//        guard let trace = Performance.startTrace(name: "metrics") else { return }
+//        trace.setValue(0, forMetric: label)
+//        trace.stop()
+//    }
+//}
 #endif
