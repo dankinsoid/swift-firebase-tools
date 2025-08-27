@@ -11,7 +11,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/dankinsoid/swift-analytics.git", from: "1.10.0"),
-        .package(url: "https://github.com/dankinsoid/swift-configs.git", from: "0.11.0"),
+        .package(url: "https://github.com/dankinsoid/swift-configs.git", from: "1.0.1"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.0.0"),
     ],
     targets: [

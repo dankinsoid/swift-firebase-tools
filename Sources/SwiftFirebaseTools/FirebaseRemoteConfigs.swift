@@ -4,12 +4,14 @@ import FirebaseRemoteConfig
 import Foundation
 @_exported import SwiftConfigs
 
-public struct FirebaseRemoteConfigsHandler: ConfigsHandler {
-	
-	public let supportWriting = false
+public typealias FirebaseRemoteConfigsHandler = FirebaseRemoteConfigStore
+
+public struct FirebaseRemoteConfigStore: ConfigStore {
+
+	public let isWritable = false
 	private let config: RemoteConfig
 	private let source: RemoteConfigSource
-	private let keys: Set<String>?
+	private let _keys: Set<String>?
 	private let allKeysKey: String?
 	private let allKeysDecoding: (String) throws -> [String]
 	
@@ -20,7 +22,7 @@ public struct FirebaseRemoteConfigsHandler: ConfigsHandler {
 	) {
 		self.config = config
 		self.source = source
-		self.keys = allKeys
+		self._keys = allKeys
 		self.allKeysKey = nil
 		self.allKeysDecoding = { _ in throw ImpossibleError() }
 	}
@@ -33,7 +35,7 @@ public struct FirebaseRemoteConfigsHandler: ConfigsHandler {
 	) {
 		self.config = config
 		self.source = source
-		self.keys = nil
+		self._keys = nil
 		self.allKeysKey = allKeysKey
 		self.allKeysDecoding = allKeysDecoding
 	}
@@ -43,38 +45,44 @@ public struct FirebaseRemoteConfigsHandler: ConfigsHandler {
 			completion(error)
 		}
 	}
-	
-	public func listen(_ listener: @escaping () -> Void) -> ConfigsCancellation? {
+
+	public func onChange(_ listener: @escaping () -> Void) -> SwiftConfigs.Cancellation {
 		let cancellable = config.addOnConfigUpdateListener { _, error in
 			if error == nil {
 				listener()
 			}
 		}
-		return ConfigsCancellation {
+		return Cancellation {
 			cancellable.remove()
 		}
 	}
 
-	public func value(for key: String) -> String? {
+	public func onChangeOfKey(_ key: String, _ listener: @escaping (String?) -> Void) -> SwiftConfigs.Cancellation {
+		onChange {
+			listener(self.get(key))
+		}
+	}
+	
+	public func get(_ key: String) -> String? {
 		let value = config.configValue(forKey: key, source: source)
 		return value.stringValue
 	}
 
-	public func allKeys() -> Set<String>? {
-		if let keys {
-			return keys
+	public func keys() -> Set<String>? {
+		if let _keys {
+			return _keys
 		}
-		if let allKeysKey, let string = value(for: allKeysKey) {
+		if let allKeysKey, let string = get(allKeysKey) {
 			return try? Set(allKeysDecoding(string))
 		}
 		return nil
 	}
-	
-	public func writeValue(_ value: String?, for key: String) throws {
+
+	public func set(_ value: String?, for key: String) throws {
 		throw UnsupportedOperationError()
 	}
-	
-	public func clear() throws {
+
+	public func removeAll() throws {
 		throw UnsupportedOperationError()
 	}
 }
