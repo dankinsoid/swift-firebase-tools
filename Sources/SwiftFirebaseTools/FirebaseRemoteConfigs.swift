@@ -65,8 +65,9 @@ public struct FirebaseRemoteConfigStore: ConfigStore {
 	
 	public func get(_ key: String) -> String? {
 		let value = config.configValue(forKey: key, source: source)
-		// A missing key (e.g. before the first activation) is an empty `.static` placeholder, never nil.
-		guard value.source != .static else { return nil }
+		// A missing key comes back as a nil object despite the nonnull annotation (its `source` reads
+		// as `.remote`, its `stringValue` as "") or as an empty `.static` placeholder; both have no data.
+		guard !value.dataValue.isEmpty else { return nil }
 		return value.stringValue
 	}
 
